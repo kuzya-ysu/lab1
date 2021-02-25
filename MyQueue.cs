@@ -21,18 +21,28 @@ namespace MyQueueClass
 
         public MyQueue(int capacity)
         {
-            Capacity = capacity;
-            _items = new T[Capacity];
+            if (capacity > 0)
+            {
+                Capacity = capacity;
+                _items = new T[Capacity];
+            }
+            else
+            throw new ArgumentOutOfRangeException();
         }
 
         public MyQueue(IEnumerable<T> list)
         {
-            Capacity = list.Count();
-            _items = new T[Capacity];
-            foreach (var item in list)
+            if (list != null)
             {
-                Enqueue(item);
+                Capacity = list.Count();
+                _items = new T[Capacity];
+                foreach (var item in list)
+                {
+                    Enqueue(item);
+                }
             }
+            else
+                throw new ArgumentNullException();
         }
 
         public void Enqueue(T item)
@@ -46,16 +56,26 @@ namespace MyQueueClass
 
         public T Dequeue()
         {
-            var item = _items[_head];
-            _items[_head] = default(T);
-            _head++;
-            Count--;
-            return item;
+            if (Count > 0)
+            {
+                var item = _items[_head];
+                _items[_head] = default(T);
+                _head++;
+                _head %= Capacity;
+                Count--;
+                return item;
+            }
+            else
+                throw new InvalidOperationException();
         }
 
         public T Peek()
         {
+            if (Count == 0)
+                throw new InvalidOperationException();
             return _items[_head];
+            
+                
         }
 
         public bool Contains(T item)

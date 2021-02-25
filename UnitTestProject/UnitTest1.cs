@@ -53,7 +53,7 @@ namespace UnitTestProject
             }
             for (int i = 0; i < n; i++)
             {
-                Assert.AreEqual(i, Queue[i]);
+                Assert.AreEqual(i, Queue.Dequeue());
             }
         }
 
@@ -67,7 +67,7 @@ namespace UnitTestProject
                 Queue.Enqueue(i);
             }
             Queue.Dequeue();
-            Assert.AreEqual(Queue.Count, 99);
+            Assert.AreEqual(Queue.Count, n-1);
         }
 
         [TestMethod]
@@ -81,6 +81,25 @@ namespace UnitTestProject
             }
             Queue.Dequeue();
             Assert.AreEqual(Queue[0], 0);
+        }
+        [TestMethod]
+        public void ItemInRightOrder()
+        {
+            MyQueue<int> Queue = new MyQueue<int>();
+            int n = 4;
+            for (int i = 1; i < n + 1; i++)
+            {
+                Queue.Enqueue(i);
+            }
+            Queue.Dequeue();
+            Queue.Dequeue();
+            Queue.Enqueue(n+1);
+            Queue.Enqueue(n+2);
+            for (int i = 3; i < n + 3; i++)
+            {
+                Assert.AreEqual(i, Queue.Dequeue());
+            }
+            
         }
 
         [TestMethod]
@@ -114,6 +133,53 @@ namespace UnitTestProject
             {
                 Assert.AreEqual(Contains[i], Queue.Contains(i));
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ExceptionInCapacityConstructorWorksCorrectly()
+        {
+            MyQueue<int> Queue = new MyQueue<int>(-4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ExceptionInCollectionConstructorWorksCorrectly()
+        {
+            int[] array = null;
+            MyQueue<int> Queue = new MyQueue<int>(array);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ExceptionInDequeueMethodWorksCorrectly()
+        {
+            MyQueue<int> Queue = new MyQueue<int>();
+            Queue.Dequeue();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ExceptionInPeekMethodWorksCorrectly()
+        {
+            MyQueue<int> Queue = new MyQueue<int>();
+            Queue.Peek();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void ExceptionInGetIndexatorWorksCorrectly()
+        {
+            MyQueue<int> Queue = new MyQueue<int>();
+            int a = Queue[-1];
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void ExceptionInSetIndexatorWorksCorrectly()
+        {
+            MyQueue<int> Queue = new MyQueue<int>();
+            Queue[-1] = 5;
         }
     }
 }

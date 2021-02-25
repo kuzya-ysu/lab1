@@ -51,13 +51,14 @@ namespace QueueTest
             Stopwatch stopwatch = new Stopwatch();
 
             #region enqueue
-
+            int a=0, b=0;
             stopwatch.Start();
             for (int i = 0; i < 10000; i++)
             {
                 myQueue.Enqueue(i);
             }
             stopwatch.Stop();
+            a += (int)stopwatch.ElapsedMilliseconds;
             enqueueTime.Append("Enqueue - " + stopwatch.Elapsed.ToString());
             stopwatch.Restart();
             for (int i = 0; i < 10000; i++)
@@ -65,6 +66,7 @@ namespace QueueTest
                 queue.Enqueue(i);
             }
             stopwatch.Stop();
+            b += (int)stopwatch.ElapsedMilliseconds;
             enqueueTime.Append(" vs " + stopwatch.Elapsed.ToString());
             Console.WriteLine(enqueueTime.ToString());
 
@@ -78,6 +80,7 @@ namespace QueueTest
                 myQueue.Peek();
             }
             stopwatch.Stop();
+            a += (int)stopwatch.ElapsedMilliseconds;
             peekTime.Append("Peek - " + stopwatch.Elapsed.ToString());
             stopwatch.Restart();
             for (int i = 0; i < 10000; i++)
@@ -85,6 +88,7 @@ namespace QueueTest
                 queue.Peek();
             }
             stopwatch.Stop();
+            b += (int)stopwatch.ElapsedMilliseconds;
             peekTime.Append(" vs " + stopwatch.Elapsed.ToString());
             Console.WriteLine(peekTime.ToString());
 
@@ -98,6 +102,7 @@ namespace QueueTest
                 myQueue.Contains(i);
             }
             stopwatch.Stop();
+            a += (int)stopwatch.ElapsedMilliseconds;
             containsTime.Append("Contains - " + stopwatch.Elapsed.ToString());
             stopwatch.Restart();
             for (int i = 5000; i < 15000; i++)
@@ -105,6 +110,7 @@ namespace QueueTest
                 queue.Contains(i);
             }
             stopwatch.Stop();
+            b += (int)stopwatch.ElapsedMilliseconds;
             containsTime.Append(" vs " + stopwatch.Elapsed.ToString());
             Console.WriteLine(containsTime.ToString());
 
@@ -118,6 +124,7 @@ namespace QueueTest
                 myQueue.Dequeue();
             }
             stopwatch.Stop();
+            a += (int)stopwatch.ElapsedMilliseconds;
             dequeueTime.Append("Dequeue - " + stopwatch.Elapsed.ToString());
             stopwatch.Restart();
             for (int i = 0; i < 10000; i++)
@@ -125,11 +132,14 @@ namespace QueueTest
                 queue.Dequeue();
             }
             stopwatch.Stop();
+            b += (int)stopwatch.ElapsedMilliseconds;
             dequeueTime.Append(" vs " + stopwatch.Elapsed.ToString());
             Console.WriteLine(dequeueTime.ToString());
 
             #endregion dequeue
 
+            Console.WriteLine(a);
+            Console.WriteLine(b);
             Console.ReadKey();
         }
     }
